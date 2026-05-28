@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enterprise SWIFT Gateway Admin</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; background:#0b1220; color:#e5eefb; }
+    .card { background:#132238; border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+    button { background:#2b7fff; color:#fff; border:none; border-radius:8px; padding: 8px 12px; cursor:pointer; }
+    code { background:#09111f; padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Enterprise SWIFT / ISO20022 / Escrow Dashboard</h1>
+  <div class="card">Status: <strong>Realtime dashboard live</strong></div>
+  <div class="card">Endpoints:<br/>
+    <code>GET /health</code><br/>
+    <code>GET /api/dashboard/summary</code><br/>
+    <code>POST /api/uetr</code><br/>
+    <code>GET /api/uetr</code><br/>
+    <code>WS /ws/track</code>
+  </div>
+  <div class="card">
+    <button onclick="connectWs()">Connect realtime tracking</button>
+    <pre id="log">Ready...</pre>
+  </div>
+  <script>
+    function connectWs() {
+      const ws = new WebSocket('ws://localhost:8000/ws/track');
+      ws.onmessage = (event) => document.getElementById('log').textContent += '\n' + event.data;
+      ws.onopen = () => document.getElementById('log').textContent = 'WebSocket connected';
+    }
+  </script>
+</body>
+</html>
